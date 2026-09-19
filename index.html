@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>陈柏宇 Bob Chen · 个人主页 | Personal Homepage</title>
-  <meta name="description" content="陈柏宇（Bob）的个人主页 —— 天津大学·香港理工大学联合培养智能生物医学专业。V1 科技感、中英双语，面向老师与同学。" />
-  <link rel="stylesheet" href="assets/style.css" />
+  <title>陈柏宇 · 个人主页</title>
+  <meta name="description" content="陈柏宇的个人主页 —— 天津大学·香港理工大学联合培养智能生物医学专业。" />
+  <link rel="stylesheet" href="assets/style.css?v=20260919d" />
 </head><body>
   <!-- 鼠标跟随背景高光层（纯装饰，不遮挡交互） -->
   <div id="cursor-glow" aria-hidden="true"></div>
@@ -13,30 +13,36 @@
   <!-- ============ 导航 ============ -->
   <header class="nav">
     <div class="container nav-inner">
-      <a class="brand" href="#top"><img class="brand-avatar" src="assets/avatar.png" alt="陈柏宇头像" />陈柏宇 Bob Chen</a>
+      <a class="brand" href="#top"><img class="brand-avatar" src="assets/avatar.png" alt="陈柏宇头像" />陈柏宇</a>
       <nav class="links">
-        <a href="#about">关于 About</a>
-        <a href="#awards">获奖 Awards</a>
-        <a href="#journey">足迹 Journey</a>
-        <a href="#interests">兴趣 Interests</a>
-        <a href="#contact">联系 Contact</a>
-        <a href="#feedback">反馈 Feedback</a>
+        <a href="#about" data-i18n="nav_about">关于</a>
+        <a href="#interests" data-i18n="nav_interests">兴趣</a>
+        <a href="#journey" data-i18n="nav_journey">足迹</a>
+        <a href="#contact" data-i18n="nav_contact">联系</a>
+        <a href="#feedback" data-i18n="nav_board">留言板</a>
+        <a href="#" id="nav-avatar" data-i18n="nav_avatar">数字分身47</a>
       </nav>
+      <!-- 中英切换按钮 -->
+      <button id="lang-toggle" class="lang-toggle" type="button" aria-label="切换语言">
+        <span class="lang-cn active">中</span>
+        <span class="lang-sep">/</span>
+        <span class="lang-en">EN</span>
+      </button>
     </div>
   </header>
 
   <!-- ============ 首屏 ============ -->
   <section id="top" class="hero">
     <div class="container">
-      <p class="hero-kicker">Hi, I'm</p>
+      <p class="hero-kicker" data-i18n="hero_kicker">你好，我是</p>
       <div class="hero-name-row">
         <img class="hero-avatar" src="assets/avatar.png" alt="陈柏宇头像" />
-        <h1 class="hero-name">陈柏宇<span class="hero-en">Bob Chen</span></h1>
+        <h1 class="hero-name" data-i18n="hero_name">陈柏宇</h1>
       </div>
-      <p class="hero-tag">天津大学·香港理工大学 BME Freshman</p>
+      <p class="hero-tag" data-i18n="hero_tag">天津大学·香港理工大学 智能生物医学 大一新生</p>
       <div class="hero-actions">
-        <a class="btn btn-primary glow" href="#experience">了解我的经历</a>
-        <a class="btn btn-ghost" href="#contact">联系我</a>
+        <a class="btn btn-primary glow" href="#about" data-i18n="hero_btn_about">了解我的经历</a>
+        <a class="btn btn-ghost" href="#contact" data-i18n="hero_btn_contact">联系我</a>
       </div>
     </div>
   </section>
@@ -44,47 +50,120 @@
   <!-- ============ 关于 ============ -->
   <section id="about" class="section">
     <div class="container">
-      <h2 class="section-title">关于我 <span class="en">About Me</span></h2>
-      <div class="card about-card">
-        <p class="about-lead">
-          我是 <strong>陈柏宇（Bob）</strong>，天津大学与香港理工大学联合培养的
-          <span class="hl">智能生物医学（BME）</span>一年级新生，2026 年 8 月入学。
-        </p>
-        <p class="en-line">
-          I'm Bob Chen, a first-year Biomedical Engineering (BME) student in the joint
-          program of Tianjin University and The Hong Kong Polytechnic University, starting in August 2026.
-        </p>
-        <ul class="facts">
-          <li><strong>学校 School：</strong>天津大学 · 香港理工大学（联合培养）</li>
-          <li><strong>专业 Major：</strong>智能生物医学 / Biomedical Engineering</li>
-          <li><strong>年级 Grade：</strong>大一 Freshman（2026.8–）</li>
-        </ul>
+      <h2 class="section-title" data-i18n="about_title">关于我</h2>
+      <div class="about-layout">
+        <div class="card about-card">
+          <p class="about-lead" data-i18n-html="about_lead">
+            我是 <strong>陈柏宇</strong>，<span class="hl">热爱运动、啥都懂一点的猫奴</span>。
+          </p>
+          <p class="about-motto" data-i18n="about_motto">「兴趣是最好的老师」</p>
+        </div>
+        <img class="cat-sticker" src="assets/cat-sticker.png" alt="我的猫" title="点我换个姿势" />
+      </div>
+
+      <!-- 教育经历路线图 -->
+      <div class="edu-timeline">
+        <h3 class="edu-title" data-i18n="edu_title">求学之路</h3>
+        <div class="edu-track">
+          <div class="edu-line"></div>
+          <div class="edu-node" data-stage="幼儿园">
+            <div class="edu-dot"></div>
+            <div class="edu-card">
+              <span class="edu-badge" data-i18n="edu_stage_kindergarten">幼儿园</span>
+              <h4 data-i18n="edu_school_kindergarten">珠海机关一幼</h4>
+              <p class="edu-note" data-i18n="edu_note_kindergarten">梦想开始的地方</p>
+            </div>
+          </div>
+          <div class="edu-node" data-stage="初中">
+            <div class="edu-dot"></div>
+            <div class="edu-card">
+              <span class="edu-badge" data-i18n="edu_stage_middle">初中</span>
+              <h4 data-i18n="edu_school_middle">珠海紫荆中学</h4>
+              <p class="edu-note" data-i18n="edu_note_middle">青春懵懂的三年</p>
+            </div>
+          </div>
+          <div class="edu-node" data-stage="高中">
+            <div class="edu-dot"></div>
+            <div class="edu-card">
+              <span class="edu-badge" data-i18n="edu_stage_high">高中</span>
+              <h4 data-i18n="edu_school_high">珠海一中</h4>
+              <p class="edu-note" data-i18n="edu_note_high">拼搏奋斗的三年</p>
+            </div>
+          </div>
+          <div class="edu-node" data-stage="大学">
+            <div class="edu-dot"></div>
+            <div class="edu-card">
+              <span class="edu-badge" data-i18n="edu_stage_university">大学</span>
+              <h4 data-i18n="edu_school_university">天津大学·香港理工大学</h4>
+              <p class="edu-note" data-i18n="edu_note_university">联合培养项目</p>
+            </div>
+          </div>
+          <div class="edu-node edu-current" data-stage="现在">
+            <div class="edu-dot"></div>
+            <div class="edu-card">
+              <span class="edu-badge edu-badge-now" data-i18n="edu_stage_now">现在</span>
+              <h4 data-i18n="edu_school_now">深圳未来技术学院 BME</h4>
+              <p class="edu-note" data-i18n="edu_note_now">智能生物医学，正在进行时</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ 获奖 ============ -->
-  <section id="awards" class="section">
+  <!-- ============ 我的兴趣（提到足迹前） ============ -->
+  <section id="interests" class="section alt">
     <div class="container">
-      <h2 class="section-title">获奖经历 <span class="en">Awards</span></h2>
-      <p class="section-note">以下获奖信息来自真实获奖证书图片提取，获奖人：陈柏宇，单项名称与等级以证书为准。</p>
-      <div class="awards-grid">
-        <article class="card award award-gold">
-          <div class="award-glow"></div>
-          <span class="badge">🥇 一等奖 First Prize</span>
-          <h3>人工智能轮式机器人创意挑战（个人挑战赛）</h3>
-          <p>2023 年横琴粤澳深度合作区人工智能大赛 暨 第五届粤港澳青少年机器人大赛</p>
-          <p class="meta">高中（中职）组 · 2023.11</p>
-        </article>
+      <h2 class="section-title" data-i18n="interests_title">我的兴趣</h2>
+      <p class="section-note" data-i18n="interests_note">点击卡片查看详情 —— 内容持续完善中</p>
+      <div class="interests-grid">
+        <div class="card interest" data-interest="编程" tabindex="0">
+          <span class="interest-emoji">💻</span>
+          <h3 data-i18n="interest_coding">编程</h3>
+          <p data-i18n="interest_coding_desc">用代码把想法变成现实，享受创造的乐趣。</p>
+        </div>
+        <div class="card interest" data-interest="音乐" tabindex="0">
+          <span class="interest-emoji">🎵</span>
+          <h3 data-i18n="interest_music">音乐</h3>
+          <p data-i18n="interest_music_desc">旋律是生活的调味剂，听歌让心情更美好。</p>
+        </div>
+        <div class="card interest" data-interest="主持" tabindex="0">
+          <span class="interest-emoji">🎤</span>
+          <h3 data-i18n="interest_host">主持</h3>
+          <p data-i18n="interest_host_desc">站在舞台上，用声音连接每一个人。</p>
+        </div>
+        <div class="card interest" data-interest="运动" tabindex="0">
+          <span class="interest-emoji">⚽</span>
+          <h3 data-i18n="interest_sports">运动</h3>
+          <p data-i18n="interest_sports_desc">保持活力，热爱球类与户外，啥都懂一点。</p>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- 兴趣详情弹窗 -->
+  <div id="interest-modal" class="interest-modal">
+    <div class="interest-modal-backdrop"></div>
+    <button class="interest-modal-close" aria-label="关闭">×</button>
+    <div class="film-info interest-film-info">
+      <span class="interest-modal-emoji" id="interest-modal-emoji">💻</span>
+      <h3 class="interest-modal-title film-city" id="interest-modal-title">编程</h3>
+    </div>
+    <div class="film-diagonal film-diagonal-horizontal">
+      <div class="film-track">
+        <div class="film-perfs film-perfs-top"></div>
+        <div class="film-frames" id="interest-film-frames"></div>
+        <div class="film-perfs film-perfs-bottom"></div>
+      </div>
+      <div class="film-reel"></div>
+    </div>
+  </div>
 
   <!-- ============ 我的足迹 · 绳子照片墙 ============ -->
   <section id="journey" class="section">
     <div class="container">
-      <h2 class="section-title">我的足迹 <span class="en">Our Journey</span></h2>
-      <p class="section-note">一串绳子，挂着一张张旅行的记忆 —— 点击照片查看城市详情。</p>
+      <h2 class="section-title" data-i18n="journey_title">我的足迹</h2>
+      <p class="section-note" data-i18n="journey_note">一串绳子，挂着一张张旅行的记忆 —— 点击照片查看城市详情。</p>
       <div class="photo-wall">
         <!-- 第一行绳子 -->
         <div class="rope-row">
@@ -93,42 +172,42 @@
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
-              <div class="photo-name">上海</div>
+              <div class="photo-name" data-i18n="city_shanghai">上海</div>
             </div>
           </div>
           <div class="photo-item" data-city="北京" style="--rot: 2deg; --delay: 0.05s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #f093fb, #f5576c);"></div>
-              <div class="photo-name">北京</div>
+              <div class="photo-name" data-i18n="city_beijing">北京</div>
             </div>
           </div>
           <div class="photo-item" data-city="成都" style="--rot: -2deg; --delay: 0.1s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #4facfe, #00f2fe);"></div>
-              <div class="photo-name">成都</div>
+              <div class="photo-name" data-i18n="city_chengdu">成都</div>
             </div>
           </div>
           <div class="photo-item" data-city="西安" style="--rot: 3deg; --delay: 0.15s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #fa709a, #fee140);"></div>
-              <div class="photo-name">西安</div>
+              <div class="photo-name" data-i18n="city_xian">西安</div>
             </div>
           </div>
           <div class="photo-item" data-city="广州" style="--rot: -3deg; --delay: 0.2s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #30cfd0, #330867);"></div>
-              <div class="photo-name">广州</div>
+              <div class="photo-name" data-i18n="city_guangzhou">广州</div>
             </div>
           </div>
           <div class="photo-item" data-city="韶关" style="--rot: 2deg; --delay: 0.25s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #a8edea, #fed6e3);"></div>
-              <div class="photo-name">韶关</div>
+              <div class="photo-name" data-i18n="city_shaoguan">韶关</div>
             </div>
           </div>
         </div>
@@ -139,42 +218,42 @@
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #ff9a9e, #fecfef);"></div>
-              <div class="photo-name">杭州</div>
+              <div class="photo-name" data-i18n="city_hangzhou">杭州</div>
             </div>
           </div>
           <div class="photo-item" data-city="南京" style="--rot: 3deg; --delay: 0.35s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);"></div>
-              <div class="photo-name">南京</div>
+              <div class="photo-name" data-i18n="city_nanjing">南京</div>
             </div>
           </div>
           <div class="photo-item" data-city="长沙" style="--rot: -3deg; --delay: 0.4s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);"></div>
-              <div class="photo-name">长沙</div>
+              <div class="photo-name" data-i18n="city_changsha">长沙</div>
             </div>
           </div>
           <div class="photo-item" data-city="深圳" style="--rot: 2deg; --delay: 0.45s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #84fab0, #8fd3f4);"></div>
-              <div class="photo-name">深圳</div>
+              <div class="photo-name" data-i18n="city_shenzhen">深圳</div>
             </div>
           </div>
           <div class="photo-item" data-city="潮州" style="--rot: -2deg; --delay: 0.5s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #fccb90, #d57eeb);"></div>
-              <div class="photo-name">潮州</div>
+              <div class="photo-name" data-i18n="city_chaozhou">潮州</div>
             </div>
           </div>
           <div class="photo-item" data-city="汕头" style="--rot: 3deg; --delay: 0.55s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #e0c3fc, #8ec5fc);"></div>
-              <div class="photo-name">汕头</div>
+              <div class="photo-name" data-i18n="city_shantou">汕头</div>
             </div>
           </div>
         </div>
@@ -185,138 +264,115 @@
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #f5576c, #f093fb);"></div>
-              <div class="photo-name">澳门</div>
+              <div class="photo-name" data-i18n="city_macau">澳门</div>
             </div>
           </div>
           <div class="photo-item" data-city="香港" style="--rot: 2deg; --delay: 0.65s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #43e97b, #38f9d7);"></div>
-              <div class="photo-name">香港</div>
+              <div class="photo-name" data-i18n="city_hongkong">香港</div>
             </div>
           </div>
           <div class="photo-item" data-city="重庆" style="--rot: -2deg; --delay: 0.7s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #fa709a, #fee140);"></div>
-              <div class="photo-name">重庆</div>
+              <div class="photo-name" data-i18n="city_chongqing">重庆</div>
             </div>
           </div>
           <div class="photo-item" data-city="新加坡" style="--rot: 3deg; --delay: 0.75s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #667eea, #764ba2);"></div>
-              <div class="photo-name">新加坡</div>
+              <div class="photo-name" data-i18n="city_singapore">新加坡</div>
             </div>
           </div>
           <div class="photo-item" data-city="马来西亚" style="--rot: -3deg; --delay: 0.8s;">
             <div class="photo-clip"></div>
             <div class="photo-frame">
               <div class="photo-img" style="background: linear-gradient(135deg, #f6d365, #fda085);"></div>
-              <div class="photo-name">马来西亚</div>
+              <div class="photo-name" data-i18n="city_malaysia">马来西亚</div>
             </div>
           </div>
+        </div>
+      </div>
+      <!-- 操作提示气泡：点击明信片展开胶卷 -->
+      <div class="wall-hint">
+        <div class="wall-hint-bubble">
+          <span class="wall-hint-emoji" aria-hidden="true">🎞️</span>
+          <span data-i18n="journey_hint">点击明信片，展开旅行胶卷</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 旅游详情弹窗 · 胶卷样式 -->
+  <!-- 旅游详情弹窗 · 斜向流光胶片 -->
   <div id="travel-modal" class="travel-modal">
     <div class="travel-modal-backdrop"></div>
-    <div class="travel-modal-card film-card">
-      <button class="travel-modal-close" aria-label="关闭">×</button>
-      <div class="film-header">
-        <h3 class="film-city" id="travel-modal-city">城市名</h3>
-        <span class="film-date" id="travel-modal-date">待补充</span>
-      </div>
-      <div class="film-strip">
+    <button class="travel-modal-close" aria-label="关闭">×</button>
+    <div class="film-info">
+      <h3 class="film-city" id="travel-modal-city">城市名</h3>
+    </div>
+    <div class="film-diagonal">
+      <div class="film-track">
         <div class="film-perfs film-perfs-top"></div>
         <div class="film-frames" id="film-frames"></div>
         <div class="film-perfs film-perfs-bottom"></div>
       </div>
-      <div class="film-hint">← 左右滑动浏览更多照片 →</div>
+      <div class="film-reel"></div>
     </div>
+    <div class="film-hint" data-i18n="film_hint">滚动鼠标滚轮浏览更多照片</div>
   </div>
-
-  <!-- ============ 我的兴趣 ============ -->
-<section id="interests" class="section">
-<div class="container">
-<h2 class="section-title">我的兴趣 <span class="en">Interests</span></h2>
-<p class="section-note">列举我平时喜欢做的事 —— 以下是常见兴趣占位，可按你的实际情况替换。</p>
-<div class="interests-grid">
-<div class="card interest">
-<span class="interest-emoji">🧠</span>
-<h3>科技与机器人</h3>
-<p>喜欢动手搭建、研究人工智能与机器人，享受把想法变成现实的过程。</p>
-</div>
-<div class="card interest">
-<span class="interest-emoji">🎵</span>
-<h3>音乐</h3>
-<p>闲暇时听音乐放松，也是学习之余最好的陪伴。</p>
-</div>
-<div class="card interest">
-<span class="interest-emoji">⚽</span>
-<h3>运动</h3>
-<p>保持运动习惯，喜欢球类与户外活动带来的活力。</p>
-</div>
-<div class="card interest">
-<span class="interest-emoji">📚</span>
-<h3>阅读与学习</h3>
-<p>对生物医学等交叉学科充满好奇，习惯持续学习新知识。</p>
-</div>
-</div>
-</div>
-</section>
 
   <!-- ============ 联系 ============ -->
   <section id="contact" class="section alt">
     <div class="container">
-      <h2 class="section-title">联系我 <span class="en">Contact</span></h2>
+      <h2 class="section-title" data-i18n="contact_title">联系我</h2>
       <div class="card contact-card">
-        <p>如果你想进一步了解我，欢迎通过以下方式联系：</p>
+        <p data-i18n="contact_intro">如果你想进一步了解我，欢迎通过以下方式联系：</p>
         <ul class="contact-list">
-          <li><strong>邮箱 Email：</strong>cby4747@tju.edu.cn</li>
-          <li><strong>GitHub：</strong>待补充（如需）</li>
-          <li><strong>其他：</strong>待补充（如需）</li>
+          <li><strong data-i18n="contact_email">邮箱：</strong>cby4747@tju.edu.cn</li>
+          <li><strong data-i18n="contact_github">GitHub：</strong>cby47</li>
+          <li><strong data-i18n="contact_wechat">微信：</strong>cby080418</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- ============ 反馈 Feedback（V3 新增，数据存入 Supabase） ============ -->
+  <!-- ============ 反馈（V3 新增，数据存入 Supabase） ============ -->
   <section id="feedback" class="section">
     <div class="container">
-      <h2 class="section-title">给我反馈 <span class="en">Feedback</span></h2>
-      <p class="section-note">你的每一条建议都会帮我把主页做得更好 —— 无需登录，提交后即可看到提示。</p>
+      <h2 class="section-title" data-i18n="board_title">留言板</h2>
+      <p class="section-note" data-i18n="board_note">留下你的想法和建议 —— 无需登录，提交后即可看到提示。</p>
       <div class="card feedback-card">
         <form id="feedback-form" class="feedback-form" novalidate>
           <div class="feedback-row">
             <div class="feedback-field">
-              <label for="fb-name">姓名（可选）</label>
+              <label for="fb-name" data-i18n="fb_name">姓名（可选）</label>
               <input type="text" id="fb-name" name="name" placeholder="怎么称呼你" maxlength="40" autocomplete="off" />
             </div>
             <div class="feedback-field">
-              <label for="fb-email">邮箱（可选，用于回复）</label>
+              <label for="fb-email" data-i18n="fb_email">邮箱（可选，用于回复）</label>
               <input type="email" id="fb-email" name="email" placeholder="your@email.com" maxlength="80" autocomplete="off" />
             </div>
           </div>
           <div class="feedback-field">
-            <label>反馈类型</label>
+            <label data-i18n="fb_type">反馈类型</label>
             <div class="feedback-types" id="fb-types">
-              <label class="fb-type"><input type="radio" name="type" value="内容建议" checked /><span>📝 内容建议</span></label>
-              <label class="fb-type"><input type="radio" name="type" value="结构体验" /><span>🔧 结构体验</span></label>
-              <label class="fb-type"><input type="radio" name="type" value="功能需求" /><span>✨ 功能需求</span></label>
-              <label class="fb-type"><input type="radio" name="type" value="其他" /><span>💬 其他</span></label>
+              <label class="fb-type"><input type="radio" name="type" value="内容建议" checked /><span data-i18n="fb_type_content">📝 内容建议</span></label>
+              <label class="fb-type"><input type="radio" name="type" value="结构体验" /><span data-i18n="fb_type_structure">🔧 结构体验</span></label>
+              <label class="fb-type"><input type="radio" name="type" value="功能需求" /><span data-i18n="fb_type_feature">✨ 功能需求</span></label>
+              <label class="fb-type"><input type="radio" name="type" value="其他" /><span data-i18n="fb_type_other">💬 其他</span></label>
             </div>
           </div>
           <div class="feedback-field">
-            <label for="fb-message">反馈内容 <span class="required">*</span></label>
+            <label for="fb-message" data-i18n="fb_message">反馈内容 <span class="required">*</span></label>
             <textarea id="fb-message" name="message" rows="4" placeholder="说说你的想法、遇到的问题或希望增加的功能……" maxlength="1000" required></textarea>
             <div class="fb-counter"><span id="fb-count">0</span>/1000</div>
           </div>
           <button type="submit" class="btn btn-primary feedback-submit" id="fb-submit">
-            <span class="submit-text">提交反馈</span>
+            <span class="submit-text" data-i18n="fb_submit">提交反馈</span>
           </button>
           <div class="feedback-result" id="fb-result" role="status" aria-live="polite"></div>
         </form>
@@ -326,11 +382,11 @@
 
   <footer class="footer">
     <div class="container">
-      <p>© 2026 陈柏宇 Bob Chen · V3 个人主页 · 公开版</p>
+      <p>© 2026 陈柏宇 · V3.1 个人主页 · 公开版</p>
     </div>
   </footer>
 
-  <!-- 常驻桌宠：用你的原图角色，右下角浮动。左键点击互动 / 按住拖动 / 滚轮缩放 / 右键菜单 -->
+  <!-- 常驻桌宠 -->
   <div id="float-pet" class="float-pet" title="单击互动 · 按住拖动 · 滚轮缩放 · 右键菜单">
     <img id="float-pet-img" src="assets/pet.png" alt="桌宠" onerror="this.style.display='none'" />
     <div id="pet-bubble" class="pet-bubble"></div>
@@ -351,82 +407,86 @@
     <div class="pet-item" data-act="zoom-out">缩小 －</div>
     <div class="pet-item" data-act="reset">恢复大小 ⟲</div>
   </div>
-<!-- ============ 数字分身 · 本地智能助手 ============ -->
-<button
-id="avatar-launcher"
-class="avatar-launcher"
-type="button"
-title="打开数字分身"
-aria-label="打开数字分身"
-aria-expanded="false"
->
-<span aria-hidden="true">😊</span>
-<span class="badge-dot"></span>
-</button>
 
-<div
-id="chat-panel"
-class="chat-panel"
-role="dialog"
-aria-label="与数字分身对话"
-aria-hidden="true"
->
-<div class="chat-head">
-<div class="chat-avatar" aria-hidden="true">😊</div>
+  <!-- 47 · 本地智能助手 -->
+  <button
+  id="avatar-launcher"
+  class="avatar-launcher"
+  type="button"
+  title="打开47"
+  aria-label="打开47"
+  data-i18n-aria="chat_launcher_aria"
+  aria-expanded="false"
+  >
+  <span aria-hidden="true">😊</span>
+  <span class="badge-dot"></span>
+  </button>
 
-<div>
-<div class="chat-head-title">数字分身 · 小宇</div>
-<div class="chat-head-sub">陈柏宇的本地智能助手</div>
-</div>
+  <div
+  id="chat-panel"
+  class="chat-panel"
+  role="dialog"
+  aria-label="与47对话"
+  data-i18n-aria="chat_dialog_aria"
+  aria-hidden="true"
+  >
+  <div class="chat-head">
+  <div class="chat-avatar" aria-hidden="true">😊</div>
 
-<button
-id="chat-close"
-class="chat-close"
-type="button"
-aria-label="关闭对话"
->
-✕
-</button>
-</div>
+  <div>
+  <div class="chat-head-title">47</div>
+  <div class="chat-head-sub" data-i18n="chat_head_sub">陈柏宇的本地智能助手</div>
+  </div>
 
-<div id="chat-body" class="chat-body" aria-live="polite">
-<div class="msg bot">
-你好呀～我是陈柏宇（Bob）的数字分身「小宇」。想了解他的学校、专业、获奖经历、兴趣或联系方式，都可以问我。
-</div>
-</div>
+  <button
+  id="chat-close"
+  class="chat-close"
+  type="button"
+  aria-label="关闭对话"
+  data-i18n-aria="chat_close_aria"
+  >
+  ✕
+  </button>
+  </div>
 
-<div class="chat-quick" aria-label="快捷问题">
-<button type="button" data-q="介绍一下柏宇">他是谁</button>
-<button type="button" data-q="他读什么专业">专业</button>
-<button type="button" data-q="他获得过什么奖">获奖</button>
-<button type="button" data-q="他的兴趣爱好是什么">兴趣</button>
-<button type="button" data-q="怎么联系他">联系</button>
-</div>
+  <div id="chat-body" class="chat-body" aria-live="polite">
+  <div class="msg bot" data-i18n="chat_welcome">
+  你好呀～我是陈柏宇（Bob）的本地助手「47」。想了解他的学校、专业、兴趣或联系方式，都可以问我。
+  </div>
+  </div>
 
-<form id="chat-form" class="chat-input-row">
-<input
-id="chat-input"
-type="text"
-placeholder="输入你想问的……"
-autocomplete="off"
-maxlength="160"
-aria-label="输入问题"
-/>
+  <div class="chat-quick" aria-label="快捷问题">
+  <button type="button" data-q="介绍一下柏宇" data-i18n="chat_q_who">他是谁</button>
+  <button type="button" data-q="他读什么专业" data-i18n="chat_q_major">专业</button>
+  <button type="button" data-q="他的兴趣爱好是什么" data-i18n="chat_q_interest">兴趣</button>
+  <button type="button" data-q="怎么联系他" data-i18n="chat_q_contact">联系</button>
+  </div>
 
-<button class="chat-send" type="submit" aria-label="发送">
-➤
-</button>
-</form>
-</div>
- <!-- 数字分身代码在这里 -->
-  
-  <!-- 头像大图预览（点击头像弹出） -->
+  <form id="chat-form" class="chat-input-row">
+  <input
+  id="chat-input"
+  type="text"
+  placeholder="输入你想问的……"
+  data-i18n-ph="chat_input_ph"
+  autocomplete="off"
+  maxlength="160"
+  aria-label="输入问题"
+  data-i18n-aria="chat_input_aria"
+  />
+
+  <button class="chat-send" type="submit" aria-label="发送" data-i18n-aria="chat_send_aria">
+  ➤
+  </button>
+  </form>
+  </div>
+
+  <!-- 头像大图预览 -->
   <div id="avatar-lightbox" class="avatar-lightbox" role="dialog" aria-label="头像大图预览">
     <img src="assets/avatar.png" alt="陈柏宇头像大图" />
   </div>
 
-  <!-- Supabase JS SDK（V3 反馈表单数据存储，仅用 anon key，不暴露 secret） -->
+  <!-- Supabase JS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="assets/script.js"></script>
+<script src="assets/script.js?v=20260919d"></script>
 </body>
 </html>
