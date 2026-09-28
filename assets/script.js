@@ -35,6 +35,9 @@
     edu_stage_kindergarten: { zh: "幼儿园", en: "Kindergarten" },
     edu_school_kindergarten: { zh: "珠海机关一幼", en: "Zhuhai No.1 Kindergarten" },
     edu_note_kindergarten: { zh: "梦想开始的地方", en: "Where dreams began" },
+    edu_stage_primary: { zh: "小学", en: "Primary School" },
+    edu_school_primary: { zh: "香洲一小", en: "Xiangzhou No. 1 Primary School" },
+    edu_note_primary: { zh: "小学时光", en: "Primary school years" },
     edu_stage_middle: { zh: "初中", en: "Middle School" },
     edu_school_middle: { zh: "珠海紫荆中学", en: "Zhuhai Zijing Middle School" },
     edu_note_middle: { zh: "青春懵懂的三年", en: "Three years of youth" },
@@ -390,8 +393,9 @@
     var petImg = document.getElementById("float-pet-img");
     var petBubble = document.getElementById("pet-bubble");
     var petMenu = document.getElementById("pet-menu");
-    var petScale = 2.2;
     var isMobile = function () { return window.innerWidth <= 640; };
+    var petScale = isMobile() ? 1 : 2.2;
+    var wasMobile = isMobile();
     var baseW = function () { return isMobile() ? 84 : 110; };
     var baseH = function () { return isMobile() ? 100 : 132; };
     var followMode = false, followTimer = null;
@@ -661,6 +665,11 @@
     function stopFollowLoop() { if (followRaf) { cancelAnimationFrame(followRaf); followRaf = null; } }
 
     window.addEventListener("resize", function () {
+      var nowMobile = isMobile();
+      if (nowMobile !== wasMobile) {
+        petScale = nowMobile ? 1 : 2.2;
+        wasMobile = nowMobile;
+      }
       applyScale();
       clampPet();
     });
@@ -668,9 +677,9 @@
     applyScale();
     initPetPos();
 
-    var introWalkTimer = setTimeout(function () {
-      walkMove(false);
-    }, 1200);
+    if (!isMobile()) {
+      setTimeout(function () { walkMove(false); }, 1200);
+    }
   }
 
   /* ============================================================
@@ -1066,9 +1075,7 @@
           if (error) throw error;
           showFbResult("✅ 留言提交成功！感谢你的宝贵建议，我会认真阅读并改进。", "success");
         } else {
-          await new Promise(function (r) { setTimeout(r, 800); });
-          console.log("[Feedback] Supabase 未配置，本地模拟提交。payload:", payload);
-          showFbResult("✅ 留言提交成功！（当前为本地预览模式，配置 Supabase 后将真实存储）感谢你的宝贵建议！", "success");
+          throw new Error("Supabase SDK 未加载，留言未保存");
         }
         feedbackForm.reset();
         fbCount.textContent = "0";

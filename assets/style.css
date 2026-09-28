@@ -319,7 +319,6 @@ section[id] { scroll-margin-top: 76px; }
   .section { padding: 52px 0; }
   .section-title { font-size: 26px; }
   .card { padding: 22px; }
-  .float-pet { width: 118px; height: 140px; right: 14px; top: 52%; }
   .lang-toggle { padding: 5px 10px; font-size: 12px; }
 }
 
@@ -338,6 +337,9 @@ section[id] { scroll-margin-top: 76px; }
 @keyframes petBounce { 0% { transform: translateY(0) scale(1); } 30% { transform: translateY(-26px) scale(1.12); } 60% { transform: translateY(0) scale(0.94); } 100% { transform: translateY(0) scale(1); } }
 .float-pet img { transition: transform 0.2s ease; }
 .float-pet.sleeping { animation: none; filter: drop-shadow(0 8px 16px rgba(140, 60, 100, 0.35)) brightness(0.94); }
+@media (max-width: 640px) {
+  .float-pet { width: 84px; height: 100px; right: 96px; top: auto; bottom: 16px; }
+}
 
 .pet-bubble {
   position: absolute; left: 50%; bottom: 102%;
