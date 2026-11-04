@@ -292,7 +292,7 @@
   var navLinks = document.querySelectorAll(".links a");
 
   function setActiveLink() {
-    var pos = window.scrollY + 120;
+    var pos = window.scrollY + (document.querySelector(".nav")?.offsetHeight || 76) + 24;
     var currentId = "";
     sections.forEach(function (sec) {
       if (pos >= sec.offsetTop) {
@@ -300,7 +300,7 @@
       }
     });
     navLinks.forEach(function (link) {
-      link.classList.toggle("active", link.getAttribute("href") === "#" + currentId);
+      link.classList.toggle("active", currentId !== "" && link.getAttribute("href") === "#" + currentId);
     });
   }
 
@@ -392,11 +392,12 @@
     var petImg = document.getElementById("float-pet-img");
     var petBubble = document.getElementById("pet-bubble");
     var petMenu = document.getElementById("pet-menu");
-    var isMobile = function () { return window.innerWidth <= 640; };
+    var petLayout = function () { return window.innerWidth <= 640 ? "phone" : window.innerWidth <= 900 ? "tablet" : "desktop"; };
+    var isMobile = function () { return petLayout() !== "desktop"; };
     var petScale = isMobile() ? 1 : 2.2;
-    var wasMobile = isMobile();
-    var baseW = function () { return isMobile() ? 84 : 110; };
-    var baseH = function () { return isMobile() ? 100 : 132; };
+    var previousPetLayout = petLayout();
+    var baseW = function () { return petLayout() === "phone" ? 54 : petLayout() === "tablet" ? 84 : 110; };
+    var baseH = function () { return petLayout() === "phone" ? 64 : petLayout() === "tablet" ? 100 : 132; };
     var followMode = false, followTimer = null;
     var bubbleTimer = null;
 
@@ -664,10 +665,17 @@
     function stopFollowLoop() { if (followRaf) { cancelAnimationFrame(followRaf); followRaf = null; } }
 
     window.addEventListener("resize", function () {
-      var nowMobile = isMobile();
-      if (nowMobile !== wasMobile) {
-        petScale = nowMobile ? 1 : 2.2;
-        wasMobile = nowMobile;
+      var layout = petLayout();
+      if (layout !== previousPetLayout) {
+        petScale = layout === "desktop" ? 2.2 : 1;
+        previousPetLayout = layout;
+        floatPet.style.left = "auto";
+        floatPet.style.top = layout === "desktop" ? "52%" : "auto";
+        floatPet.style.right = layout === "phone" ? "94px" : layout === "tablet" ? "100px" : "60px";
+        floatPet.style.bottom = layout === "phone" ? "calc(8px + env(safe-area-inset-bottom))" : layout === "tablet" ? "16px" : "auto";
+        applyScale();
+        initPetPos();
+        return;
       }
       applyScale();
       clampPet();
@@ -697,6 +705,7 @@
 
     function setChatOpen(open) {
       chatIsOpen = open;
+      document.body.classList.toggle("chat-open", open);
       chatPanel.classList.toggle("open", open);
       chatPanel.setAttribute("aria-hidden", open ? "false" : "true");
       avatarLauncher.setAttribute("aria-expanded", open ? "true" : "false");
