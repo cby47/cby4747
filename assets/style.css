@@ -335,7 +335,7 @@ section[id] { scroll-margin-top: 76px; }
 /* ---------- 常驻桌宠 ---------- */
 .float-pet {
   position: fixed; right: 60px; top: 52%; z-index: 40;
-  width: 158px; height: 188px; cursor: grab; user-select: none;
+  width: 158px; height: 188px; cursor: grab; user-select: none; touch-action: none;
   filter: drop-shadow(0 8px 16px rgba(140, 60, 100, 0.35));
   animation: petFloat 3.6s ease-in-out infinite; transition: transform 0.2s;
 }

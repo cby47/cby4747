@@ -560,39 +560,48 @@
     if (stopItem) stopItem.style.display = "none";
     }
 
-    /* 按住拖动 */
-    var pDragging = false, pX = 0, pY = 0, pLeft = 0, pTop = 0, pMoved = false;
-    floatPet.addEventListener("mousedown", function (e) {
-      if (e.button !== 0) return;
+    /* 鼠标和触屏统一拖动 */
+    var pDragging = false, pX = 0, pY = 0, pLeft = 0, pTop = 0, pMoved = false, dragPointerId = null;
+    floatPet.addEventListener("pointerdown", function (e) {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      if (pDragging) return;
       pDragging = true;
+      dragPointerId = e.pointerId;
       pMoved = false;
       hideMenu();
       stopWalk();
       pX = e.clientX;
       pY = e.clientY;
-      pLeft = floatPet.offsetLeft;
-      pTop = floatPet.offsetTop;
+      var rect = floatPet.getBoundingClientRect();
+      pLeft = rect.left;
+      pTop = rect.top;
+      try { floatPet.setPointerCapture(e.pointerId); } catch (_) { /* synthetic events have no active pointer */ }
       setGlowMode("pet");
       glowFollowPet();
       e.preventDefault();
     });
-    document.addEventListener("mousemove", function (e) {
-      if (!pDragging) return;
+    floatPet.addEventListener("pointermove", function (e) {
+      if (!pDragging || e.pointerId !== dragPointerId) return;
       var dx = e.clientX - pX;
       var dy = e.clientY - pY;
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) pMoved = true;
-      floatPet.style.left = pLeft + dx + "px";
-      floatPet.style.top = pTop + dy + "px";
+      floatPet.style.left = Math.max(0, Math.min(window.innerWidth - floatPet.offsetWidth, pLeft + dx)) + "px";
+      floatPet.style.top = Math.max(0, Math.min(window.innerHeight - floatPet.offsetHeight, pTop + dy)) + "px";
       floatPet.style.right = "auto";
       floatPet.style.bottom = "auto";
       glowFollowPet();
+      e.preventDefault();
     });
-    document.addEventListener("mouseup", function () {
-      if (!pDragging) return;
+    function finishPetDrag(e) {
+      if (!pDragging || e.pointerId !== dragPointerId) return;
       pDragging = false;
-      if (!pMoved) setBubble("嘿！别乱点～ 😄");
+      if (floatPet.hasPointerCapture(e.pointerId)) floatPet.releasePointerCapture(e.pointerId);
+      dragPointerId = null;
+      if (!pMoved && e.type === "pointerup") setBubble("嘿！别乱点～ 😄");
       setGlowMode("cursor");
-    });
+    }
+    floatPet.addEventListener("pointerup", finishPetDrag);
+    floatPet.addEventListener("pointercancel", finishPetDrag);
 
     /* 滚轮缩放 */
     floatPet.addEventListener("wheel", function (e) {
