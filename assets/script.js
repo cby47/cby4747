@@ -2,7 +2,7 @@
    V3.1 个人主页 · 交互脚本
    - 导航高亮 / 进场动画 / 滚动阴影
    - 桌宠（拖动/缩放/散步/跟随/菜单）
-   - 助手47（本地问答）
+   - 数字分身47（DeepSeek API）
    - 鼠标跟随高光
    - 头像 lightbox
    - 足迹照片墙 + 胶卷弹窗
@@ -59,15 +59,14 @@
     interest_host: { zh: "主持", en: "Hosting" },
     interest_host_desc: { zh: "站在舞台上，用声音连接每一个人。", en: "On stage, connecting everyone with the power of voice." },
     interest_sports: { zh: "运动", en: "Sports" },
-    interest_sports_desc: { zh: "保持活力，热爱球类与户外，啥都懂一点。", en: "Staying active, loving ball sports and outdoors, a bit of everything." },
+    interest_sports_desc: { zh: "热爱球类运动，最近获得学校羽毛球比赛单打、双打冠军。", en: "Loves ball sports; recently won school badminton singles and doubles championships." },
     journey_title: { zh: "我的足迹", en: "My Footprints" },
     journey_note: { zh: "一串绳子，挂着一张张旅行的记忆 —— 点击照片查看城市详情。", en: "A string of travel memories — click photos for city details." },
     journey_hint: { zh: "点击明信片，展开旅行胶卷", en: "Click a postcard to unroll the film" },
     contact_title: { zh: "联系我", en: "Contact" },
-    contact_intro: { zh: "如果你想进一步了解我，欢迎通过以下方式联系：", en: "Feel free to reach out via:" },
+    contact_intro: { zh: "如果你想进一步了解我，欢迎通过邮箱联系：", en: "Feel free to reach out by email:" },
     contact_email: { zh: "邮箱：", en: "Email: " },
     contact_github: { zh: "GitHub：", en: "GitHub: " },
-    contact_wechat: { zh: "微信：", en: "WeChat: " },
     board_title: { zh: "留言板", en: "Message Board" },
     board_note: { zh: "留下你的想法和建议 —— 无需登录，提交后即可看到提示。", en: "Leave your thoughts and suggestions — no login needed." },
     fb_name: { zh: "姓名（可选）", en: "Name (optional)" },
@@ -109,10 +108,10 @@
     film_hint: { zh: "滚动鼠标滚轮浏览更多照片", en: "Scroll to see more photos" },
 
     /* 数字分身47 · 对话面板 */
-    chat_head_sub: { zh: "陈柏宇的本地智能助手", en: "Bob's local AI assistant" },
+    chat_head_sub: { zh: "陈柏宇的 AI 数字分身", en: "Bob's AI digital twin" },
     chat_welcome: {
-      zh: "你好呀～我是陈柏宇（Bob）的本地助手「47」。想了解他的学校、专业、兴趣或联系方式，都可以问我。",
-      en: "Hi! I'm 47, Bob Chen's local AI assistant. Ask me about his school, major, interests, or how to reach him."
+      zh: "你好呀～我是陈柏宇（Bob）的 AI 数字分身「47」。你可以自由提问，我会依据他公开的资料回答。",
+      en: "Hi! I'm 47, Bob Chen's AI digital twin. Ask me anything; I'll answer from his public profile."
     },
     chat_q_who: { zh: "他是谁", en: "About" },
     chat_q_major: { zh: "专业", en: "Major" },
@@ -191,8 +190,8 @@
       desc: "热爱主持，享受站在舞台上用声音连接每一个人的感觉。多次担任活动主持人。"
     },
     "运动": {
-      emoji: "⚽", title: "运动", count: 7,
-      desc: "热爱运动，保持活力。喜欢球类和户外运动，啥都懂一点，运动让生活更精彩。"
+      emoji: "🏸", title: "运动", count: 7,
+      desc: "热爱运动和球类，最近获得学校羽毛球比赛单打、双打冠军。"
     }
   };
 
@@ -683,7 +682,7 @@
   }
 
   /* ============================================================
-     5) 助手47 · 本地智能问答
+     5) 数字分身47 · 真实模型问答
      ============================================================ */
   var avatarLauncher = document.getElementById("avatar-launcher");
   var chatPanel = document.getElementById("chat-panel");
@@ -714,85 +713,66 @@
       chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    function getAvatarReply(question) {
-      var text = question.toLowerCase().replace(/\s+/g, "");
-      var en = currentLang === "en";
-      function L(zhText, enText) { return en ? enText : zhText; }
+    var CHAT_API_URL = "https://ymlwhymikjbuliwiruhb.supabase.co/functions/v1/digital-twin";
+    var CHAT_PUBLISHABLE_KEY = "sb_publishable_rz02vXoTBHzapd0DrrdLVw_hMAK3XxL";
+    var chatHistory = [];
+    var chatBusy = false;
+    var chatSendButton = chatForm.querySelector(".chat-send");
 
-      if (/你好|您好|嗨|在吗|hello|(^|[^a-z])hi([^a-z]|$)/.test(text)) {
-        return L("你好呀～我是47，Bob 的本地助手。很高兴认识你！你可以问我关于他的学校、专业、兴趣和联系方式。",
-                "Hi there! I'm 47, Bob's local assistant. Nice to meet you! Ask me about his school, major, interests, or contact info.");
-      }
-      if (/你是谁|小宇|数字分身|机器人|助手|whoareyou|whatareyou|assistant|robot|twin|(^|[^a-z])47([^a-z]|$)/.test(text)) {
-        return L("我是「47」，陈柏宇（Bob）的本地智能助手。我负责接待来到个人主页的访客，并介绍他的学习经历和兴趣爱好。",
-                "I'm 47, the local AI assistant of Bob Chen. I welcome visitors to this homepage and introduce Bob's studies and interests.");
-      }
-      if (/介绍|陈柏宇|柏宇|bob|他是谁|关于他|whois|abouthim|aboutbob|introduce/.test(text)) {
-        return L("陈柏宇，英文名 Bob Chen，是天津大学与香港理工大学联合培养的智能生物医学专业学生，2026 年 8 月入学。热爱运动、啥都懂一点的猫奴。",
-                "Bob Chen is a Biomedical Engineering student in the joint program of Tianjin University and The Hong Kong Polytechnic University, enrolled in August 2026. He loves sports, dabbles in a bit of everything, and is a cat lover.");
-      }
-      if (/学校|大学|天津大学|天大|香港理工|港理工|poly|school|university|college|polyu/.test(text)) {
-        return L("Bob 就读于天津大学与香港理工大学联合培养项目，在深圳未来技术学院学习。",
-                "Bob studies in the joint program of Tianjin University and The Hong Kong Polytechnic University, at the Shenzhen Institute of Future Technology.");
-      }
-      if (/专业|生物医学|bme|学什么|方向|major|biomedical|field|studywhat/.test(text)) {
-        return L("他的专业是智能生物医学，也就是 Biomedical Engineering（BME）。这是一个结合医学、工程、人工智能与生命科学的交叉学科。",
-                "His major is Intelligent Biomedical Engineering (BME), an interdisciplinary field combining medicine, engineering, AI, and life sciences.");
-      }
-      if (/年级|大几|入学|新生|什么时候|year|freshman|grade|whendid|enroll/.test(text)) {
-        return L("他是 2026 级大一新生，2026 年 8 月入学。",
-                "He's a freshman from the class of 2026, enrolled in August 2026.");
-      }
-      if (/兴趣|爱好|喜欢|平时做什么|interest|hobb|freetime|forfun/.test(text)) {
-        return L("他的兴趣包括编程、音乐、主持和运动。点击主页的兴趣卡片可以查看详情哦～",
-                "His interests include coding, music, hosting, and sports. Click the interest cards on the homepage for details!");
-      }
-      if (/编程|代码|程序|coding|code|program/.test(text)) {
-        return L("Bob 喜欢编程，享受用代码把想法变成现实的过程。",
-                "Bob loves coding and enjoys turning ideas into reality with code.");
-      }
-      if (/音乐|听歌|music|song|listen/.test(text)) {
-        return L("音乐是他学习之余放松自己的方式，也是日常生活中的重要陪伴。",
-                "Music helps him relax after studying and is a big part of his daily life.");
-      }
-      if (/主持|host|emcee/.test(text)) {
-        return L("他喜欢主持，享受站在舞台上用声音连接每一个人的感觉。",
-                "He enjoys hosting and connecting with an audience from the stage.");
-      }
-      if (/运动|足球|户外|sport|football|soccer|outdoor|exercise/.test(text)) {
-        return L("他喜欢运动、球类与户外活动，啥都懂一点，希望通过运动保持活力。",
-                "He enjoys sports, ball games, and the outdoors, staying active and trying a bit of everything.");
-      }
-      if (/猫|猫奴|宠物|cat|kitten|pet/.test(text)) {
-        return L("他是个猫奴，热爱猫咪～",
-                "He's a total cat lover!");
-      }
-      if (/邮箱|联系|联系方式|找他|邮件|email|contact|reach|wechat/.test(text)) {
-        return L("你可以通过邮箱联系他：cby4747@tju.edu.cn（微信：cby080418，GitHub：cby47）。",
-                "You can reach him by email: cby4747@tju.edu.cn (WeChat: cby080418, GitHub: cby47).");
-      }
-      if (/主页|网站|网页|作品|website|homepage|site|page/.test(text)) {
-        return L("这个个人主页由 Bob 持续完善，目前包含个人介绍、求学路线、兴趣爱好、旅行足迹、互动桌宠和本地助手47。",
-                "Bob keeps improving this homepage, which now includes his intro, education path, interests, travel footprints, an interactive pet, and me, 47.");
-      }
-      if (/谢谢|感谢|好的|明白|再见|拜拜|thank|gotit|okay|goodbye|(^|[^a-z])bye([^a-z]|$)|(^|[^a-z])ok([^a-z]|$)/.test(text)) {
-        return L("不客气～很高兴能帮到你！如果还想了解 Bob，随时可以继续问我。",
-                "You're welcome! Feel free to ask me anything else about Bob anytime.");
-      }
-      return L("这个问题我暂时还没有学会回答。你可以试试问我：Bob 是谁、他的学校和专业、有哪些兴趣，或者怎样联系他。",
-              "I haven't learned to answer that yet. Try asking: who Bob is, his school and major, his interests, or how to contact him.");
-    }
-
-    function sendAvatarQuestion(question) {
+    async function sendAvatarQuestion(question) {
       var cleanQuestion = question.trim();
-      if (!cleanQuestion) return;
-      addChatMessage(cleanQuestion, "user");
+      if (!cleanQuestion || chatBusy) return;
+      chatBusy = true;
       chatInput.value = "";
-      window.setTimeout(function () {
-        addChatMessage(getAvatarReply(cleanQuestion), "bot");
-      }, 360);
-    }
+      chatInput.disabled = true;
+      if (chatSendButton) chatSendButton.disabled = true;
+      chatBody.setAttribute("aria-busy", "true");
+      addChatMessage(cleanQuestion, "user");
+      var pending = document.createElement("div");
+      pending.className = "msg bot";
+      pending.textContent = currentLang === "en" ? "Thinking…" : "正在思考…";
+      chatBody.appendChild(pending);
+      chatBody.scrollTop = chatBody.scrollHeight;
 
+      var controller = new AbortController();
+      var timeout = window.setTimeout(function () { controller.abort(); }, 30000);
+      try {
+        var response = await fetch(CHAT_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: CHAT_PUBLISHABLE_KEY
+          },
+          body: JSON.stringify({ question: cleanQuestion, history: chatHistory }),
+          signal: controller.signal
+        });
+        var result = await response.json().catch(function () { return {}; });
+        if (!response.ok || typeof result.reply !== "string" || !result.reply.trim()) {
+          throw new Error(response.status === 429 ? "rate_limited" : "service_unavailable");
+        }
+        pending.textContent = result.reply.trim();
+        chatHistory.push({ role: "user", content: cleanQuestion });
+        chatHistory.push({ role: "assistant", content: pending.textContent });
+        chatHistory = chatHistory.slice(-8);
+      } catch (error) {
+        if (error.message === "rate_limited") {
+          pending.textContent = currentLang === "en"
+            ? "Too many questions right now. Please try again later."
+            : "提问有点频繁，请稍后再试。";
+        } else {
+          pending.textContent = currentLang === "en"
+            ? "I can't connect right now. Please try again shortly."
+            : "暂时无法连接数字分身，请稍后再试。";
+        }
+      } finally {
+        window.clearTimeout(timeout);
+        chatBusy = false;
+        chatInput.disabled = false;
+        if (chatSendButton) chatSendButton.disabled = false;
+        chatBody.removeAttribute("aria-busy");
+        chatInput.focus();
+      }
+    }
     avatarLauncher.addEventListener("click", function () { setChatOpen(!chatIsOpen); });
     var navAvatar = document.getElementById("nav-avatar");
     if (navAvatar) {
@@ -1091,3 +1071,4 @@
   }
 
 })();
+
