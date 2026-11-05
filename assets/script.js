@@ -731,8 +731,7 @@
       chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    var CHAT_API_URL = "https://ymlwhymikjbuliwiruhb.supabase.co/functions/v1/digital-twin";
-    var CHAT_PUBLISHABLE_KEY = "sb_publishable_rz02vXoTBHzapd0DrrdLVw_hMAK3XxL";
+    var CHAT_API_URL = "https://cby47-homepage-d0giilyhpcfabc670-1525655381.ap-shanghai.app.tcloudbase.com/digital-twin";
     var chatHistory = [];
     var chatBusy = false;
     var chatSendButton = chatForm.querySelector(".chat-send");
@@ -757,10 +756,7 @@
       try {
         var response = await fetch(CHAT_API_URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: CHAT_PUBLISHABLE_KEY
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ question: cleanQuestion, history: chatHistory }),
           signal: controller.signal
         });
